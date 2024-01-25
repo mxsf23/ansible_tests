@@ -1,0 +1,37 @@
+- name: Test Config02
+  gather_facts: yes
+  hosts: test-vm01
+
+  tasks:
+
+    - name: Create user
+      user:
+        name: user1
+        shell: /bin/bash
+
+    - name: create directory /opt/dkhs-deploy 
+      file:
+        path: "/home/user1/.ssh"
+        state: directory
+        mode: '0700'
+
+    - name: Creating a file with content
+      copy:
+        dest: "/home/user1/.ssh/id_rsa.pub"
+        content: "{{ ansible_ssh_public_key }}"
+    
+    - name: Install Postfix
+      yum:
+        name: "postfix"
+        state: present
+      tags: 
+        - "init postfix"
+        - never
+
+    - name: Remove Postfix
+      yum:
+        name: "postfix"
+        state: absent
+      tags: 
+        - "drop postfix"
+        - never
