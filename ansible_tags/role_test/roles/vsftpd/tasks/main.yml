@@ -1,0 +1,11 @@
+- name: Install vsftpd
+  yum:
+    name: "vsftpd"
+    state: present
+
+- name: copy vsftpd config
+  copy:
+    src: vsftpd.conf
+    dest: /etc/vsftpd/vsftpd.conf
+  notify:
+    - vsftpd restart
