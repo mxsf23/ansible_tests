@@ -1,0 +1,33 @@
+- name: nginx restart
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
+
+- name: nginx start
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: nginx stop
+  service:
+    name: nginx
+    state: stopped
+
+- name: php-fpm restart
+  service:
+    name: php-fpm
+    state: restarted
+    enabled: yes
+
+- name: php-fpm start
+  service:
+    name: php-fpm
+    state: started
+    enabled: yes
+
+- name: php-fpm stop
+  service:
+    name: php-fpm
+    state: stopped

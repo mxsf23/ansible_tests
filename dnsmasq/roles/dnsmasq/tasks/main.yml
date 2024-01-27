@@ -1,0 +1,40 @@
+- name: disable systemd-resolved
+  service:
+    name: systemd-resolved
+    state: stopped
+    enabled: false
+
+- name: Install dnsmasq
+  yum:
+    name: "dnsmasq"
+    state: present
+
+- name: Create user
+  user:
+    name: "{{ dnsmasq_user }}"
+    shell: /bin/bash
+  when:  dnsmasq_user is defined and dnsmasq_user != 'dnsmasq'
+
+- name: create directory for dnsmasq config of it doesn't exist
+  file:
+    path: "{{ conf_dir }}"
+    state: directory
+    group: "{{ dnsmasq_group }}"
+    mode: '0755'
+
+- name: create directory for dnsmasq config of it doesn't exist
+  file:
+    path: "/etc/dnsmasq.conf"
+    state: absent
+
+- name: put config file in config path
+  template:
+    src: dnsmasq_conf01.conf.j2
+    dest: "{{ conf_dir }}/dnsmasq_conf01.conf"
+    owner: root
+    group: "{{ dnsmasq_group }}"
+    mode: '0644'
+    backup: no
+  register: conf_result
+  notify:
+    - dnsmasq start

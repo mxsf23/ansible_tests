@@ -1,0 +1,35 @@
+- name: Test Config Superuser
+  gather_facts: yes
+  hosts: test-vm01
+  vars: 
+    users:
+      - user2
+      - user3
+    group: superusers
+
+  tasks:
+  
+    - name: Create group "{{ group }}"
+      group:
+        name: "{{ group }}"
+        state: present
+
+    - name: Create user "{{ item }}"
+      user:
+        name: "{{ item }}"
+        shell: /bin/bash
+        groups: "{{ group }}"
+      loop: "{{ users }}"
+
+    - name: Validate the sudoers file before saving
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        insertafter: '^root\s+'
+        regexp: '^%superusers ALL='
+        line: '%superusers ALL=(ALL) NOPASSWD: ALL'
+        validate: /usr/sbin/visudo -cf %s
+
+
+
+    

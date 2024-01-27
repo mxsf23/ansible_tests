@@ -1,0 +1,13 @@
+server={{ default_dns_server }}
+server=/{{ user_domain }}/{{ user_domain_dns }}
+user={{ dnsmasq_user }}
+group={{ dnsmasq_group }}
+listen-address=0.0.0.0
+bind-interfaces
+# Include all files in a directory which end in .conf
+conf-dir={{ conf_dir }},*.conf
+log-queries
+log-facility={{ log_path }}
+cache-size={{ cache_size }}
+all-servers
+no-negcache

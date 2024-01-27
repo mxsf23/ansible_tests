@@ -1,0 +1,9 @@
+ansible_become: true
+dnsmasq_user: dnsmasq
+dnsmasq_group: dnsmasq
+default_dns_server: '8.8.8.8'
+user_domain: companyteam.local
+user_domain_dns: '192.168.10.8'
+conf_dir: /etc/dnsmasq.d
+log_path: /var/log/dnsmasq/dnsmasq.log
+cache_size: 1000

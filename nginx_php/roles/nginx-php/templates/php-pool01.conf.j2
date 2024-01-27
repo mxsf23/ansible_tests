@@ -1,0 +1,19 @@
+[{{ pool_name }}]
+user = {{ nginx_user }}
+group = {{ nginx_group }}
+listen = /var/run/php-fpm/{{ pool_name }}.sock
+listen.owner = {{ nginx_user }}
+listen.group = {{ nginx_group }}
+listen.mode = 0660
+listen.acl_users = apache,{{ nginx_user  }}
+pm = dynamic
+pm.max_children = {{ pm_max_children }}
+pm.start_servers = {{ pm_start_servers }}
+pm.min_spare_servers = {{ pm_min_spare_servers }}
+pm.max_spare_servers = {{ pm_max_spare_servers }}
+pm.process_idle_timeout = {{ pm_process_idle_timeout }}
+pm.status_path = {{ pm_status_path }}
+php_value[session.save_handler] = {{ php_value_session_save_handler }}
+php_value[session.save_path]    = {{ php_value_session_save_path }}
+php_value[soap.wsdl_cache_dir]  = {{ php_value_soap_wsdl_cache_dir }}
+php_value[opcache.file_cache]  = {{ php_value_opcache_file_cache }}

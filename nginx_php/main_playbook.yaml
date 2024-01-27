@@ -1,0 +1,11 @@
+- name: Test Config Nginx-Php
+  gather_facts: yes
+  hosts: test-vm01
+  roles: 
+    - role: nginx-php
+      vars: 
+        packages:
+          - nginx
+          - php-fpm
+          
+

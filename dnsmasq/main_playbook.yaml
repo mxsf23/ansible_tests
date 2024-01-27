@@ -1,0 +1,5 @@
+- name: Test Config Dnsmasq
+  gather_facts: yes
+  hosts: test-vm01
+  roles: 
+    - dnsmasq
