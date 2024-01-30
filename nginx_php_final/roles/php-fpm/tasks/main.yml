@@ -1,0 +1,30 @@
+- name: Install packages
+  yum:
+    name: "php-fpm"
+    state: present
+
+- name: put php-fpm config file in config path
+  template:
+    src: php-pool01.conf.j2
+    dest: "/etc/php-fpm.d/{{ pool_name}}.conf"
+    mode: '0644'
+    backup: no
+  register: conf_result
+  notify:
+    - php-fpm restart
+
+- name: create directory for site root
+  file:
+    path: "{{ site_root_path }}"
+    state: directory
+    mode: '0755'
+
+- name: create index.php file
+  template:
+    src: index.php.j2
+    dest: "{{ site_root_path }}/index.php"
+    mode: '0777'
+    force: true
+  notify:
+    - php-fpm restart
+

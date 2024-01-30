@@ -1,0 +1,22 @@
+- name: Install packages
+  yum:
+    name: "nginx"
+    state: present
+
+- name: create directory for site root
+  file:
+    path: "{{ site_root_path }}"
+    state: directory
+    mode: '0755'
+
+- name: put nginx site config
+  template:
+    src: nginx-site-php.conf.j2
+    dest: "{{ nginx_site_configs_path }}/nginx-site-php.conf"
+    group: "{{ nginx_group }}"
+    force: true
+    mode: '0644'
+    backup: no
+  register: nginx_conf_result
+  notify:
+    - nginx restart

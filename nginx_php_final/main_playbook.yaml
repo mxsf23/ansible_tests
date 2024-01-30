@@ -1,0 +1,39 @@
+- name: Test Config Nginx-Php-Final
+  gather_facts: yes
+  hosts: all
+  vars: 
+    users:
+      - user1
+      - user2
+    group: superuser
+    site_root: "/opt/nginx/ansible"
+        
+  tasks: 
+    
+    - name: prepare users
+      include_role:
+        name: create_user
+      vars:
+        user: "{{ users }}"
+    
+    - name: deploy php-fpm
+      include_role:
+        name: php-fpm
+      vars:
+        nginx_user: nginx
+        nginx_group: nginx
+        php_listenaddr: 0.0.0.0
+        php_listenport: 9000
+        site_root_path: "{{ site_root }}"
+      when: inventory_hostname in groups["php_fpm"]
+  
+    - name: deploy nginx
+      include_role:
+        name: nginx
+      vars:
+        nginx_group: nginx
+        site_port: 8080
+        php_listenport: 9000
+        php_host: "{{ hostvars['test-vm02']['ansible_default_ipv4']['address'] }}"
+        site_root_path: "{{ site_root }}"
+      when: inventory_hostname in groups["nginx"]

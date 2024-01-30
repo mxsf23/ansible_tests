@@ -1,0 +1,19 @@
+- name: Create users
+  user:
+    name: "{{ user_task }}"
+    shell: /bin/bash
+    groups: "{{ group }}"
+
+- name: create directory for ssh-key
+  file:
+    path: "/home/{{ user_task }}/.ssh"
+    state: directory
+    mode: '0700'
+
+- name: Creating a file with content
+  copy:
+    dest: "/home/{{ user_task }}/.ssh/id_rsa.pub"
+    content: "{{ ansible_ssh_public_key }}"
+
+
+    

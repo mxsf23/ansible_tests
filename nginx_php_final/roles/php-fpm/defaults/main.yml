@@ -1,0 +1,16 @@
+ansible_become: true
+pool_name: www-test
+nginx_user: nginx
+nginx_group: nginx
+pm_max_children: 50
+pm_start_servers: 5
+pm_min_spare_servers: 5
+pm_max_spare_servers: 35
+pm_process_idle_timeout: 10s
+pm_status_path: /status
+php_value_session_save_handler: files
+php_value_session_save_path: /var/lib/php/session
+php_value_soap_wsdl_cache_dir: /var/lib/php/wsdlcache
+php_value_opcache_file_cache: /var/lib/php/opcache
+php_listenaddr: 127.0.0.1
+php_listenport: 5555

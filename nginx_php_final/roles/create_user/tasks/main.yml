@@ -1,0 +1,26 @@
+- name: test debug 02
+  debug: 
+    msg: "users: {{ users }}"
+
+- name: Create group "{{ group }}"
+  group:
+    name: "{{ group }}"
+    state: present
+
+- name: Create users
+  include_tasks: "user_prepare.yml"
+  loop: "{{ users }}"
+  loop_control:
+    loop_var: user_task
+
+- name: Validate the sudoers file before saving
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    insertafter: '^root\s+'
+    regexp: '^%superusers ALL='
+    line: '%superusers ALL=(ALL) NOPASSWD: ALL'
+    validate: /usr/sbin/visudo -cf %s
+
+
+    

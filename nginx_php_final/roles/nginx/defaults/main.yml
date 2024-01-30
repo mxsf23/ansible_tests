@@ -1,0 +1,6 @@
+site_port: 8080
+site_domain_name: test01.local
+site_root_path: /opt/nginx/ansible
+nginx_site_configs_path: /etc/nginx/conf.d
+php_listenport: 8081
+php_host: 127.0.0.1
